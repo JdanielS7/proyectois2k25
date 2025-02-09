@@ -1,4 +1,4 @@
-using Capa_Vista_Seguridad;
+Ôªøusing Capa_Vista_Seguridad;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,13 +9,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_Vista_Nominas;
+//using Capa_Vista_Nominas;
 
 //using Capa_Vista_Banco;      
-using Capa_Vista_Contabilidad;
+//using Capa_Vista_Contabilidad;
 //using Capa_Vista_Produccion;
 //using Capa_Vista_Banco;
-using Capa_Vista_CompraVenta;
+//using Capa_Vista_CompraVenta;
 
 
 namespace Interfac_V3
@@ -33,8 +33,8 @@ namespace Interfac_V3
 
         private void FormModulos_Load(object sender, EventArgs e)
         {
-            // ConfiguraciÛn inicial si es necesaria
-            // Asignar los eventos MouseEnter y MouseLeave explÌcitamente al botÛn
+            // Configuraci√≥n inicial si es necesaria
+            // Asignar los eventos MouseEnter y MouseLeave expl√≠citamente al bot√≥n
             btnSeguridad.MouseEnter += btnSeguridad_MouseEnter;
             btnSeguridad.MouseLeave += btnSeguridad_MouseLeave;
 
@@ -60,7 +60,7 @@ namespace Interfac_V3
 
         }
 
-        // MÈtodos para mover la ventana sin bordes
+        // M√©todos para mover la ventana sin bordes
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
@@ -74,16 +74,23 @@ namespace Interfac_V3
 
         private void btnSeguridad_Click(object sender, EventArgs e)
         {
-            var usuario = new Capa_Vista_Seguridad.frm_login();
-            string idUsuario = usuario.Txt_usuario.ToString();
+            // Ahora el MDI_Seguriidad se abrir√° solamente si se hace login correctamente (Daniel Sierra 0901-21-12750 - 08-02-2025)
+            // Creamos y mostramos el formulario de login
+            using (frm_login login = new Capa_Vista_Seguridad.frm_login())
+            {
+                // Mostrar el formulario de login y esperar que regrese el resultado
+                if (login.ShowDialog() == DialogResult.OK) // Si el login es exitoso
+                {
+                    string idUsuario = login.obtenerNombreUsuario(); // Obtener el usuario logueado
 
-            frm_login login = new frm_login();
-            login.ShowDialog();
+                    // Abrir MDI_Seguridad solo si el login fue exitoso
+                    MDI_Seguridad formMDI = new MDI_Seguridad(idUsuario);
+                    formMDI.Show();
+                    this.Hide(); // Ocultar el formulario de inicio
+                }
+              }
+            }
 
-            MDI_Seguridad formMDI = new MDI_Seguridad(idUsuario);
-            formMDI.Show();
-            this.Hide();
-        }
 
         private void btnSeguridad_MouseEnter(object sender, EventArgs e)
         {
@@ -116,8 +123,8 @@ namespace Interfac_V3
             Aqui debe de agregarse la referencia a nominas
             */
 
-            frm_principal_nominas nominas = new frm_principal_nominas(UsuarioSesion.GetIdUsuario());
-            nominas.Show();
+            //frm_principal_nominas nominas = new frm_principal_nominas(UsuarioSesion.GetIdUsuario());
+            //nominas.Show();
 
 
         }
@@ -133,8 +140,8 @@ namespace Interfac_V3
 
         private void Btn_Logistica_Click(object sender, EventArgs e)
         {
-            Capa_Vista_Logistica.FormPrincipal logistica = new Capa_Vista_Logistica.FormPrincipal(UsuarioSesion.GetIdUsuario());
-            logistica.Show();
+            //Capa_Vista_Logistica.FormPrincipal logistica = new Capa_Vista_Logistica.FormPrincipal(UsuarioSesion.GetIdUsuario());
+            //logistica.Show();
         }
 
         private void Btn_Logistica_MouseEnter(object sender, EventArgs e)
@@ -148,8 +155,8 @@ namespace Interfac_V3
 
         private void Btn_Contabilidad_Click(object sender, EventArgs e)
         {
-            Contabilidad_MDI conta = new Contabilidad_MDI(UsuarioSesion.GetIdUsuario());
-            conta.Show();
+            //Contabilidad_MDI conta = new Contabilidad_MDI(UsuarioSesion.GetIdUsuario());
+            //conta.Show();
         }
 
         private void Btn_Contabilidad_MouseEnter(object sender, EventArgs e)
@@ -163,8 +170,8 @@ namespace Interfac_V3
 
         private void Btn_Compras_Click(object sender, EventArgs e)
         {
-            Frm_MDI_general_CompraVenta Cv = new Frm_MDI_general_CompraVenta(UsuarioSesion.GetIdUsuario());
-            Cv.Show();
+            //Frm_MDI_general_CompraVenta Cv = new Frm_MDI_general_CompraVenta(UsuarioSesion.GetIdUsuario());
+            //Cv.Show();
 
         }
 
